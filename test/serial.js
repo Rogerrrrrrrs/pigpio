@@ -29,7 +29,7 @@ while (output.waveTxBusy()) { }
 
 setTimeout(() => {
   let data = output.serialRead();
-  assert.strictEqual(data, message, 'Serial data mismatch');
+  assert.strictEqual(data.toString(), message, 'Serial data mismatch');
 }, 10);
 
 

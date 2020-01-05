@@ -568,11 +568,8 @@ Opens a GPIO for bit bang reading of serial data. Returns this.
 
 Configures the level logic for bit bang serial reads. Returns this.
 
-#### serialRead(buf, bufSize)
-- buf - a buffer to receive the read bytes
-- bufSize - > 0
-
-Copies up to bufSize bytes of data read from the bit bang serial cyclic buffer to the buffer starting at buf. Returns the number of bytes read.
+#### serialRead()
+Returns up to 8192 bytes of serialdata as an Uint8Array read by the gpio.
 
 #### serialReadClose()
 Closes a GPIO for bit bang reading of serial data. Returns this.
