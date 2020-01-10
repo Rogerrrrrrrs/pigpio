@@ -952,6 +952,21 @@ NAN_METHOD(serOpen) {
   info.GetReturnValue().Set(rc);
 }
 
+NAN_METHOD(serClose) {
+  if (info.Length() < 1 || !info[0]->IsUint32()) {
+    return Nan::ThrowError(Nan::ErrnoException(EINVAL, "serClose", ""));
+  }
+
+  unsigned handle = Nan::To<uint32_t>(info[0]).FromJust();
+
+  int rc = serClose(handle);
+  if (rc < 0) {
+    return ThrowPigpioError(rc, "serClose");
+  }
+
+  info.GetReturnValue().Set(rc);
+}
+
 NAN_METHOD(gpioSerialReadOpen) {
   if (info.Length() < 3 || !info[0]->IsUint32() || !info[1]->IsUint32() || !info[2]->IsUint32()) {
     return Nan::ThrowError(Nan::ErrnoException(EINVAL, "gpioSerialReadOpen", ""));

@@ -328,6 +328,10 @@ class Serial {
   constructor(device, baud) {
     this.handle = pigpio.serOpen(device, baud);
   }
+
+  close() {
+    pigpio.serClose(this.handle);
+  }
 }
 
 /* ------------------------------------------------------------------------ */
