@@ -967,6 +967,22 @@ NAN_METHOD(serClose) {
   info.GetReturnValue().Set(rc);
 }
 
+NAN_METHOD(serWriteByte) {
+  if (info.Length() < 2 || !info[0]->IsUint32() || !info[1]->IsUint32()) {
+    return Nan::ThrowError(Nan::ErrnoException(EINVAL, "serWriteByte", ""));
+  }
+
+  unsigned handle = Nan::To<uint32_t>(info[0]).FromJust();
+  unsigned byte = Nan::To<uint32_t>(info[0]).FromJust();
+
+  int rc = serWriteByte(handle, byte);
+  if (rc < 0) {
+    return ThrowPigpioError(rc, "serWriteByte");
+  }
+
+  info.GetReturnValue().Set(rc);
+}
+
 NAN_METHOD(gpioSerialReadOpen) {
   if (info.Length() < 3 || !info[0]->IsUint32() || !info[1]->IsUint32() || !info[2]->IsUint32()) {
     return Nan::ThrowError(Nan::ErrnoException(EINVAL, "gpioSerialReadOpen", ""));
