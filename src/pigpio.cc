@@ -936,6 +936,22 @@ NAN_METHOD(gpioWaveGetMaxCbs) {
 /* Serial                                                            */
 /* ------------------------------------------------------------------------ */
 
+NAN_METHOD(serOpen) {
+  if (info.Length() < 2 || !info[0]->IsNull() || !info[1]->IsUint32()) {
+    return Nan::ThrowError(Nan::ErrnoException(EINVAL, "serOpen", ""));
+  }
+
+  char * sertty = node::Buffer::Data(info[0]);
+  unsigned baud = Nan::To<uint32_t>(info[1]).FromJust();
+
+  int rc = serOpen(sertty, baud);
+  if (rc < 0) {
+    return ThrowPigpioError(rc, "serOpen");
+  }
+
+  info.GetReturnValue().Set(rc);
+}
+
 NAN_METHOD(gpioSerialReadOpen) {
   if (info.Length() < 3 || !info[0]->IsUint32() || !info[1]->IsUint32() || !info[2]->IsUint32()) {
     return Nan::ThrowError(Nan::ErrnoException(EINVAL, "gpioSerialReadOpen", ""));
