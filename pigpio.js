@@ -344,6 +344,13 @@ class Serial {
   write(message){
     pigpio.serWrite(this.handle, message, message.length);
   }
+
+  read(message, count){
+    let bufSize = 8192;
+    let buf = Buffer.alloc(bufSize);
+    let bytesRead = pigpio.serRead(this.handle, buf, bufSize);
+    return buf.filter(Boolean);
+  }
 }
 
 /* ------------------------------------------------------------------------ */

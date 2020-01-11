@@ -1015,6 +1015,19 @@ NAN_METHOD(serWrite) {
   info.GetReturnValue().Set(rc);
 }
 
+NAN_METHOD(serRead) {
+  if (info.Length() < 3 || !info[0]->IsUint32() || !info[1]->IsArrayBufferView() || !info[2]->IsUint32()) {
+    return Nan::ThrowError(Nan::ErrnoException(EINVAL, "serRead", ""));
+  }
+
+  unsigned handle = Nan::To<uint32_t>(info[0]).FromJust();
+  void * buf = node::Buffer::Data(info[1]);
+  size_t count = Nan::To<size_t>(info[2]).FromJust();
+
+  int rc = serRead(handle, buf, count);
+  info.GetReturnValue().Set(rc);
+}
+
 NAN_METHOD(gpioSerialReadOpen) {
   if (info.Length() < 3 || !info[0]->IsUint32() || !info[1]->IsUint32() || !info[2]->IsUint32()) {
     return Nan::ThrowError(Nan::ErrnoException(EINVAL, "gpioSerialReadOpen", ""));
