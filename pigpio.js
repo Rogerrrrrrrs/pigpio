@@ -338,7 +338,7 @@ class Serial {
   }
 
   readByte(){
-    pigpio.serWriteByte(this.handle);
+    return pigpio.serWriteByte(this.handle);
   }
 
   write(message){
