@@ -985,7 +985,7 @@ NAN_METHOD(serWriteByte) {
 
 NAN_METHOD(serReadByte) {
   if (info.Length() < 1 || !info[0]->IsUint32()) {
-    return Nan::ThrowError(Nan::ErrnoException(EINVAL, "serWritserReadByteeByte", ""));
+    return Nan::ThrowError(Nan::ErrnoException(EINVAL, "serReadByte", ""));
   }
 
   unsigned handle = Nan::To<uint32_t>(info[0]).FromJust();
