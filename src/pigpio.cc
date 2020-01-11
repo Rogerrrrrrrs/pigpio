@@ -1028,6 +1028,21 @@ NAN_METHOD(serRead) {
   info.GetReturnValue().Set(rc);
 }
 
+NAN_METHOD(serDataAvailable) {
+  if (info.Length() < 1 || !info[0]->IsUint32()) {
+    return Nan::ThrowError(Nan::ErrnoException(EINVAL, "serDataAvailable", ""));
+  }
+
+  unsigned handle = Nan::To<uint32_t>(info[0]).FromJust();
+
+  int rc = serDataAvailable(handle);
+  if (rc < 0) {
+    return ThrowPigpioError(rc, "serDataAvailable");
+  }
+
+  info.GetReturnValue().Set(rc);
+}
+
 NAN_METHOD(gpioSerialReadOpen) {
   if (info.Length() < 3 || !info[0]->IsUint32() || !info[1]->IsUint32() || !info[2]->IsUint32()) {
     return Nan::ThrowError(Nan::ErrnoException(EINVAL, "gpioSerialReadOpen", ""));

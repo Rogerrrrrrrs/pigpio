@@ -351,6 +351,10 @@ class Serial {
     let bytesRead = pigpio.serRead(this.handle, buf, bufSize);
     return buf.filter(Boolean);
   }
+
+  dataAvailable(){
+    return pigpio.serDataAvailable(this.handle);
+  }
 }
 
 /* ------------------------------------------------------------------------ */
