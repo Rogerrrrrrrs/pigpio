@@ -983,6 +983,21 @@ NAN_METHOD(serWriteByte) {
   info.GetReturnValue().Set(rc);
 }
 
+NAN_METHOD(serReadByte) {
+  if (info.Length() < 1 || !info[0]->IsUint32()) {
+    return Nan::ThrowError(Nan::ErrnoException(EINVAL, "serWritserReadByteeByte", ""));
+  }
+
+  unsigned handle = Nan::To<uint32_t>(info[0]).FromJust();
+
+  int rc = serReadByte(handle);
+  if (rc < 0) {
+    return ThrowPigpioError(rc, "serReadByte");
+  }
+
+  info.GetReturnValue().Set(rc);
+}
+
 NAN_METHOD(gpioSerialReadOpen) {
   if (info.Length() < 3 || !info[0]->IsUint32() || !info[1]->IsUint32() || !info[2]->IsUint32()) {
     return Nan::ThrowError(Nan::ErrnoException(EINVAL, "gpioSerialReadOpen", ""));

@@ -336,6 +336,10 @@ class Serial {
   writeByte(byte){
     pigpio.serWriteByte(this.handle, byte);
   }
+
+  readByte(){
+    pigpio.serWriteByte(this.handle);
+  }
 }
 
 /* ------------------------------------------------------------------------ */
