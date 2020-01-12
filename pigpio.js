@@ -263,29 +263,6 @@ class Gpio extends EventEmitter {
     return pigpio.gpioWaveGetMaxCbs();
   }
 
-  /* Serial */
-
-  serialReadOpen(baud, dataBits) {
-    pigpio.gpioSerialReadOpen(this.gpio, baud, dataBits);
-    return this;
-  }
-
-  serialReadInvert(invert) {
-    pigpio.gpioSerialReadInvert(this.gpio, invert);
-    return this;
-  }
-
-  serialRead() { 
-    let bufSize = 8192;
-    let buf = Buffer.alloc(bufSize);
-    let bytesRead = pigpio.gpioSerialRead(this.gpio, buf, bufSize);
-    return buf.filter(Boolean);
-  }
-
-  serialReadClose() {
-    pigpio.gpioSerialReadClose(this.gpio);
-    return this;
-  }
 
   /* mode */
   static get INPUT() { return 0; } // PI_INPUT
@@ -353,6 +330,40 @@ class Serial {
 
   dataAvailable(){
     return pigpio.serDataAvailable(this.handle);
+  }
+}
+
+class SoftwareSerial {
+  constructor(rxPin, txPin, baud, dataBits, invert = false) {
+    this.rxPin = rxPin;
+    this.txPin = txPin;
+    this.baud = baud;
+    this.dataBits = dataBits;
+    this.invert = invert;
+
+    this.open(this.rxPin, this.baud, this.dataBits);
+  }
+
+  open(rxPin, baud, dataBits) {
+    pigpio.gpioSerialReadOpen(rxPin, baud, dataBits);
+    return this;
+  }
+
+  readInvert(invert) {
+    pigpio.gpioSerialReadInvert(this.gpio, invert);
+    return this;
+  }
+
+  read() { 
+    let bufSize = 8192;
+    let buf = Buffer.alloc(bufSize);
+    let bytesRead = pigpio.gpioSerialRead(this.gpio, buf, bufSize);
+    return buf.filter(Boolean);
+  }
+
+  close() {
+    pigpio.gpioSerialReadClose(this.gpio);
+    return this;
   }
 }
 
