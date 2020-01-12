@@ -985,6 +985,24 @@ NAN_METHOD(gpioSerialReadInvert) {
 }
 
 
+NAN_METHOD(gpioSerialRead) {
+  if (info.Length() < 3 || !info[0]->IsUint32() || !info[1]->IsArrayBufferView() || !info[2]->IsUint32()) {
+    return Nan::ThrowError(Nan::ErrnoException(EINVAL, "gpioSerialRead", ""));
+  }
+
+  unsigned gpio = Nan::To<uint32_t>(info[0]).FromJust();
+  void * buf = node::Buffer::Data(info[1]);
+  size_t bufSize = Nan::To<size_t>(info[2]).FromJust();
+
+  int rc = gpioSerialRead(gpio, buf, bufSize);
+  if (rc < 0) {
+    return ThrowPigpioError(rc, "gpioSerialRead");
+  }
+
+  info.GetReturnValue().Set(rc);
+}
+
+
 /* ------------------------------------------------------------------------ */
 /* Configuration                                                            */
 /* ------------------------------------------------------------------------ */
@@ -1143,6 +1161,7 @@ NAN_MODULE_INIT(InitAll) {
 
   SetFunction(target, "gpioSerialReadOpen", gpioSerialReadOpen);
   SetFunction(target, "gpioSerialReadInvert", gpioSerialReadInvert);
+  SetFunction(target, "gpioSerialRead", gpioSerialRead);
 
   SetFunction(target, "gpioCfgClock", gpioCfgClock);
   SetFunction(target, "gpioCfgSocketPort", gpioCfgSocketPort);
