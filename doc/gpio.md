@@ -30,6 +30,11 @@
 - Alerts
   - [enableAlert()](#enablealert)
   - [disableAlert()](#disablealert)
+- Serial
+  - [serialReadOpen(baud, dataBits)](#serialreadopenbaud-databits)
+  - [serialReadInvert(invert)](#serialreadinvertinvert)
+  - [serialRead(bytes)](#serialreadbytes)
+  - [serialReadClose()](#serialreadclose)
 - Filters
   - [glitchFilter(steady)](#glitchfiltersteady)
 
@@ -318,6 +323,25 @@ An alert event will be emitted every time the GPIO changes state.
 
 #### disableAlert()
 Disables alerts for the GPIO. Returns this.
+
+#### serialReadOpen(baud, dataBits)
+- baud - an unsigned integer from 50 - 250000, specifies the baud rate.
+- dataBits - an unsigned integer from 1 - 32, number of data bits.
+
+Opens a GPIO for bit bang reading of serial data. Returns this.
+
+#### serialReadInvert(invert)
+- invert - if the level should be inverted or not, 0 or 1
+
+Configures the level logic for bit bang serial readings. Returns this.
+
+#### serialRead(bytes)
+- bytes - How many bytes you want to read. 1 - 8192, Defaults to 8192.
+Returns up to 8192 bytes of serialdata as an Uint8Array read by the gpio.
+
+#### serialReadClose()
+Closes a GPIO for bit bang reading of serial data. Returns this.
+
 
 #### glitchFilter(steady)
 Sets a glitch filter on a GPIO. Returns this.
