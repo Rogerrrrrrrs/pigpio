@@ -950,6 +950,27 @@ NAN_METHOD(gpioWaveGetMaxCbs) {
 
 
 /* ------------------------------------------------------------------------ */
+/* Serial                                                                   */
+/* ------------------------------------------------------------------------ */
+
+
+NAN_METHOD(gpioSerialReadOpen) {
+  if (info.Length() < 3 || !info[0]->IsUint32() || !info[1]->IsUint32() || !info[2]->IsUint32()) {
+    return Nan::ThrowError(Nan::ErrnoException(EINVAL, "gpioSerialReadOpen", ""));
+  }
+
+  unsigned gpio = Nan::To<uint32_t>(info[0]).FromJust();
+  unsigned baud = Nan::To<uint32_t>(info[1]).FromJust();
+  unsigned dataBits = Nan::To<uint32_t>(info[2]).FromJust();
+
+  int rc = gpioSerialReadOpen(gpio, baud, dataBits);
+  if (rc < 0) {
+    return ThrowPigpioError(rc, "gpioSerialReadOpen");
+  }
+}
+
+
+/* ------------------------------------------------------------------------ */
 /* Configuration                                                            */
 /* ------------------------------------------------------------------------ */
 
@@ -1104,6 +1125,8 @@ NAN_MODULE_INIT(InitAll) {
   SetFunction(target, "gpioWaveGetCbs", gpioWaveGetCbs);
   SetFunction(target, "gpioWaveGetHighCbs", gpioWaveGetHighCbs);
   SetFunction(target, "gpioWaveGetMaxCbs", gpioWaveGetMaxCbs);
+
+  SetFunction(target, "gpioSerialReadOpen", gpioSerialReadOpen);
 
   SetFunction(target, "gpioCfgClock", gpioCfgClock);
   SetFunction(target, "gpioCfgSocketPort", gpioCfgSocketPort);
