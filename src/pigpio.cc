@@ -970,6 +970,21 @@ NAN_METHOD(gpioSerialReadOpen) {
 }
 
 
+NAN_METHOD(gpioSerialReadInvert) {
+  if (info.Length() < 2 || !info[0]->IsUint32() || !info[1]->IsUint32()) {
+    return Nan::ThrowError(Nan::ErrnoException(EINVAL, "gpioSerialReadInvert", ""));
+  }
+
+  unsigned gpio = Nan::To<uint32_t>(info[0]).FromJust();
+  unsigned invert = Nan::To<uint32_t>(info[1]).FromJust();
+
+  int rc = gpioSerialReadInvert(gpio, invert);
+  if (rc < 0) {
+    return ThrowPigpioError(rc, "gpioSerialReadInvert");
+  }
+}
+
+
 /* ------------------------------------------------------------------------ */
 /* Configuration                                                            */
 /* ------------------------------------------------------------------------ */
@@ -1127,6 +1142,7 @@ NAN_MODULE_INIT(InitAll) {
   SetFunction(target, "gpioWaveGetMaxCbs", gpioWaveGetMaxCbs);
 
   SetFunction(target, "gpioSerialReadOpen", gpioSerialReadOpen);
+  SetFunction(target, "gpioSerialReadInvert", gpioSerialReadInvert);
 
   SetFunction(target, "gpioCfgClock", gpioCfgClock);
   SetFunction(target, "gpioCfgSocketPort", gpioCfgSocketPort);
