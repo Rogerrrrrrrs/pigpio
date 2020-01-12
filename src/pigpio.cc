@@ -793,6 +793,28 @@ NAN_METHOD(gpioWaveAddGeneric) {
 }
 
 
+NAN_METHOD(gpioWaveAddSerial) {
+  if (info.Length() < 7 || !info[0]->IsUint32() || !info[1]->IsUint32() || !info[2]->IsUint32() || !info[3]->IsUint32() || !info[4]->IsUint32() || !info[5]->IsUint32() || info[6]->IsNull()) {
+    return Nan::ThrowError(Nan::ErrnoException(EINVAL, "gpioWaveAddSerial", ""));
+  }
+
+  unsigned gpio = Nan::To<uint32_t>(info[0]).FromJust();
+  unsigned baud = Nan::To<uint32_t>(info[1]).FromJust();
+  unsigned dataBits = Nan::To<uint32_t>(info[2]).FromJust();
+  unsigned stopBits = Nan::To<uint32_t>(info[3]).FromJust();
+  unsigned offset = Nan::To<uint32_t>(info[4]).FromJust();
+  unsigned numBytes = Nan::To<uint32_t>(info[5]).FromJust();
+  char * message = node::Buffer::Data(info[6]);
+
+  int rc = gpioWaveAddSerial(gpio, baud, dataBits, stopBits*2, offset, numBytes, message);
+  if (rc < 0) {
+    return ThrowPigpioError(rc, "gpioWaveAddSerial");
+  }
+
+  info.GetReturnValue().Set(rc);
+}
+
+
 NAN_METHOD(gpioWaveCreate) {
   int rc = gpioWaveCreate();
   if (rc < 0) {
@@ -1065,6 +1087,7 @@ NAN_MODULE_INIT(InitAll) {
   SetFunction(target, "gpioWaveClear", gpioWaveClear);
   SetFunction(target, "gpioWaveAddNew", gpioWaveAddNew);
   SetFunction(target, "gpioWaveAddGeneric", gpioWaveAddGeneric);
+  SetFunction(target, "gpioWaveAddSerial", gpioWaveAddSerial);
   SetFunction(target, "gpioWaveCreate", gpioWaveCreate);
   SetFunction(target, "gpioWaveDelete", gpioWaveDelete);
   SetFunction(target, "gpioWaveTxSend", gpioWaveTxSend);
