@@ -10,6 +10,7 @@ The global functions are defined at the pigpio module level.
   - [waveClear()](#waveclear)
   - [waveAddNew()](#waveaddnew)
   - [waveAddGeneric(pulses)](#waveaddgenericpulses)
+  - [waveAddSerial(baud, dataBits, stopBits, offset, message)](#waveaddserialbaud-databits-stopbits-offset-message)
   - [waveCreate()](#wavecreate)
   - [waveDelete(waveId)](#wavedeletewaveid)
   - [waveTxSend(waveId, waveMode)](#wavetxsendwaveid-wavemode)
@@ -135,6 +136,16 @@ while (pigpio.waveTxBusy()) {}
 
 pigpio.waveDelete(waveId);
 ```
+
+#### waveAddSerial(baud, dataBits, stopBits, offset, message)
+- baud - an unsigned integer from 50 - 1000000, specifies the baud rate.
+- dataBits - an unsigned integer from 1 - 32, number of data bits.
+- stopBits - an unsigned integer from 1 - 4, number of stop bits.
+- offset - an unsigned integer >= 0, the serial data starts `offset` microseconds from the start of the waveform.
+- message - a string, the Message to be sent.
+
+Adds a waveform representing serial data to the existing waveform.
+Returns the new total number of pulses in the current waveform.
 
 #### waveCreate()
 Creates a waveform from added data. Returns a wave id.
