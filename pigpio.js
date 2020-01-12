@@ -258,6 +258,24 @@ class Gpio extends EventEmitter {
     return this;
   }
 
+  serialReadOpen(baud, dataBits) {
+    pigpio.gpioSerialReadOpen(this.gpio, baud, dataBits);
+  }
+  
+  serialReadInvert(invert) {
+    pigpio.gpioSerialReadInvert(this.gpio, invert);
+  }
+  
+  serialRead(bytes = 8192) { 
+    let buf = Buffer.alloc(bytes);
+    let bytesRead = pigpio.gpioSerialRead(this.gpio, buf, bytes);
+    return buf.filter(Boolean);
+  }
+  
+  serialReadClose() {
+    pigpio.gpioSerialReadClose(this.gpio);
+  }
+
   /* mode */
   static get INPUT() { return 0; } // PI_INPUT
   static get OUTPUT() { return 1; } //PI_OUTPUT;
