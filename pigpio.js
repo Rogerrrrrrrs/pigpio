@@ -260,10 +260,12 @@ class Gpio extends EventEmitter {
 
   serialReadOpen(baud, dataBits) {
     pigpio.gpioSerialReadOpen(this.gpio, baud, dataBits);
+    return this;
   }
   
   serialReadInvert(invert) {
     pigpio.gpioSerialReadInvert(this.gpio, invert);
+    return this;
   }
   
   serialRead(bytes = 8192) { 
@@ -274,6 +276,7 @@ class Gpio extends EventEmitter {
   
   serialReadClose() {
     pigpio.gpioSerialReadClose(this.gpio);
+    return this;
   }
 
   /* mode */
