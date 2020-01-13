@@ -78,7 +78,7 @@ Clears all waveforms and any data added by calls to the `waveAdd*` functions.
 #### waveAddNew()
 Starts a new empty waveform. 
 
-You wouldn't normally need to call this function as it is automatically called after a waveform is created with the gpioWaveCreate function. 
+You wouldn't normally need to call this function as it is automatically called after a waveform is created with the waveCreate function. 
 
 #### waveAddGeneric(pulses)
 - pulses - an array of pulses objects.
