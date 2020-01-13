@@ -331,7 +331,7 @@ Disables alerts for the GPIO. Returns this.
 Opens a GPIO for bit bang reading of serial data. Returns this.
 
 #### serialReadInvert(invert)
-- invert - if the level should be inverted or not, 0 or 1
+- invert - if the level should be inverted or not, 1 or 0
 
 Configures the level logic for bit bang serial readings. Returns this.
 
@@ -341,7 +341,6 @@ Returns up to 8192 bytes of serialdata as an Uint8Array read by the gpio.
 
 #### serialReadClose()
 Closes a GPIO for bit bang reading of serial data. Returns this.
-
 
 #### glitchFilter(steady)
 Sets a glitch filter on a GPIO. Returns this.
