@@ -137,7 +137,8 @@ while (pigpio.waveTxBusy()) {}
 pigpio.waveDelete(waveId);
 ```
 
-#### waveAddSerial(baud, dataBits, stopBits, offset, message)
+#### waveAddSerial(gpio, baud, dataBits, stopBits, offset, message)
+- gpio - an unsigned integer that specifies the GPIO number used to send the serial data
 - baud - an unsigned integer from 50 - 1000000, specifies the baud rate.
 - dataBits - an unsigned integer from 1 - 32, number of data bits.
 - stopBits - an unsigned integer from 1 - 4, number of stop bits.
