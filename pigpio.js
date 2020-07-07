@@ -46,8 +46,8 @@ module.exports.waveAddGeneric = (pulses) => {
 }; 
 
 module.exports.waveAddSerial = (gpio, baud, dataBits, stopBits, offset, message)  => {
-  let buf = Buffer.from(message);
-  let numBytes = buf.length;
+  let buf = Buffer.from(message, 'ascii');
+  let numBytes = Buffer.byteLength(buf);
   return pigpio.gpioWaveAddSerial(gpio, baud, dataBits, stopBits, offset, numBytes, buf);
 };
 
